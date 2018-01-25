@@ -1,8 +1,8 @@
-# useful-git-hooks
+# Useful-git-hooks
 
 a lil' repo for git hooks that are useful :)
 
-## install instructions
+## Install instructions
 
 1. once cloned, create a directory to store all your future hooks.
 
