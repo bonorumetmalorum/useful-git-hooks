@@ -1,15 +1,19 @@
 #!/bin/zsh
+#@bartoszmajsak
 
+#add branches on which not to prepend ticket number
 if [ -z "$BRANCHES_TO_SKIP" ]; then
 	BRANCHES_TO_SKIP=(master)
 fi
 
+#shell code to run in order to get the ticket number (branch name)
   BRANCH_NAME=$(git symbolic-ref --short HEAD)
   BRANCH_NAME="${BRANCH_NAME##*/}"
-
+#is this branch excluded? finds the name of current branch in BRANCHES_TO_SKIP if it exists
   BRANCH_EXCLUDED=$(printf "%s\n" "${BRANCHES_TO_SKIP[@]}" | grep -c "^$BRANCH_NAME$")
+#get the commit message
   BRANCH_IN_COMMIT=$(grep -c "\[$BRANCH_NAME\]" $1)
-
+#-n is 'no zero' and eq is 'equal' to and ge is 'greater than', line to commit the message with prepended ticket number
 if [ -n "$BRANCH_NAME" ] && ! [[ $BRANCH_EXCLUDED -eq 1 ]] && ! [[ $BRANCH_IN_COMMIT -ge 1 ]]; then 
 	sed -i.bak -e "1s/^/$BRANCH_NAME: /" $1
 fi
